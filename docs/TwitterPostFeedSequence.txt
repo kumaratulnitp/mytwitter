@@ -1,0 +1,13 @@
+title Twitter post feed sequence
+
+Client->WebService:Post a tweet
+
+WebService->PersistenceService:Save User tweet
+PersistenceService-->WebService:Save success
+
+WebService->QueueService:Feed(userId, feedId)
+Client<--WebService:Feed posted
+
+
+QueueService->QueueConsumer:Update followers feed
+

@@ -1,0 +1,13 @@
+title Twitter get newsfeed sequence
+
+Client->WebService:View NewsFeed
+
+note over WebService,PersistenceService:No calculations will be done to generate latest feed here
+WebService->PersistenceService:Fetch last updated newsfeed
+PersistenceService-->WebService:return data
+
+
+Client<--WebService:Newsfeed returned
+
+
+
