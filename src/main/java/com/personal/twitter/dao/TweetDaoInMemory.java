@@ -46,6 +46,7 @@ public class TweetDaoInMemory implements TweetDao{
 			return false;
 		}
 		likes.add(userId);
+		tweet.setLikedBy(likes);
 		return true;
 	}
 
@@ -58,6 +59,8 @@ public class TweetDaoInMemory implements TweetDao{
 		}
 		Comment comment = commentDao.create(text, userId, tweetId);
 		commentIds.add(comment.getId());
+		tweet.setCommentIds(commentIds);
+		tweet.setTopComment(text);
 		return true;
 	}
 

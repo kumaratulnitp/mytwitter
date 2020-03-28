@@ -18,10 +18,11 @@ public class UserDaoInMemory implements UserDao{
 	
 	@Override
 	public User find(String userName) throws BusinessException {
-		if (isPresent(userName)) {
+		User user = users.get(userName);
+		if (user == null) {
 			throw new BusinessException("UserName does not exists");
 		}
-		return users.get(userName);
+		return user;
 	}
 
 	@Override
@@ -29,7 +30,6 @@ public class UserDaoInMemory implements UserDao{
 		if (isPresent(userName)) {
 			throw new BusinessException("UserName already present");
 		}
-		
 		User user = User.builder()
 				.id(availableId.getAndIncrement())
 				.userName(userName)
