@@ -1,5 +1,7 @@
 package com.personal.twitter.dao;
 
-public interface CommentDao {
+import com.personal.twitter.pojo.Comment;
 
+public interface CommentDao {
+	Comment create(String text, int userId, int tweetId);
 }

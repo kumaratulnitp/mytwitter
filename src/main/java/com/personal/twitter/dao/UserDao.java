@@ -4,6 +4,6 @@ import com.personal.twitter.exception.BusinessException;
 import com.personal.twitter.pojo.User;
 
 public interface UserDao {
-	User findUser(String userName) throws BusinessException;
-	User createUser(String userName, String name, String email) throws BusinessException;
+	User find(String userName) throws BusinessException;
+	User create(String userName, String name, String email) throws BusinessException;
 }

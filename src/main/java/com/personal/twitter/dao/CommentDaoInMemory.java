@@ -1,8 +1,33 @@
 package com.personal.twitter.dao;
 
-import org.springframework.stereotype.Component;
+import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
-@Component
+import org.springframework.stereotype.Repository;
+
+import com.personal.twitter.pojo.Comment;
+
+@Repository
 public class CommentDaoInMemory implements CommentDao {
+	
+	private Map<Integer, Comment> comments = new ConcurrentHashMap<>();
+	
+	private AtomicInteger availableId = new AtomicInteger(0);
+	
+	@Override
+	public Comment create(String text, int userId, int tweetId) {
+		Comment comment = Comment.builder()
+				.id(availableId.getAndIncrement())
+				.text(text)
+				.userId(userId)
+				.createdOn(new Date())
+				.tweetId(tweetId)
+				.build();
+		
+		comments.put(comment.getId(), comment);
+		return comment;
+	}
 
 }
