@@ -17,11 +17,11 @@ public class CommentDaoInMemory implements CommentDao {
 	private AtomicInteger availableId = new AtomicInteger(0);
 	
 	@Override
-	public Comment create(String text, int userId, int tweetId) {
+	public Comment create(String text, String userName, int tweetId) {
 		Comment comment = Comment.builder()
 				.id(availableId.getAndIncrement())
 				.text(text)
-				.userId(userId)
+				.userName(userName)
 				.createdOn(new Date())
 				.tweetId(tweetId)
 				.build();

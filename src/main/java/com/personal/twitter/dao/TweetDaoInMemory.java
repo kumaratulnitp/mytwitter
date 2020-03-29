@@ -25,39 +25,39 @@ public class TweetDaoInMemory implements TweetDao{
 	private CommentDao commentDao;
 	
 	@Override
-	public Tweet create(String text, int userId) {
+	public Tweet create(String text, String userName) {
 		Tweet tweet = Tweet.builder()
 				.id(availableId.getAndIncrement())
 				.text(text)
 				.createdOn(new Date())
-				.userId(userId)
+				.userName(userName)
 				.build();
 		save(tweet);
 		return tweet;
 	}
 
 	@Override
-	public boolean like(int tweetId, int userId) throws BusinessException {
+	public boolean like(int tweetId, String userName) throws BusinessException {
 		Tweet tweet = find(tweetId);
-		List<Integer> likes = tweet.getLikedBy();
+		List<String> likes = tweet.getLikedBy();
 		if (likes == null) {
-			likes = new ArrayList<Integer>();
-		} else if (likes.contains(userId)) {
+			likes = new ArrayList<String>();
+		} else if (likes.contains(userName)) {
 			return false;
 		}
-		likes.add(userId);
+		likes.add(userName);
 		tweet.setLikedBy(likes);
 		return true;
 	}
 
 	@Override
-	public boolean comment(int tweetId, int userId, String text) throws BusinessException {
+	public boolean comment(int tweetId, String userName, String text) throws BusinessException {
 		Tweet tweet = find(tweetId);
 		List<Integer> commentIds = tweet.getCommentIds();
 		if (commentIds == null) {
 			commentIds = new ArrayList<>();
 		}
-		Comment comment = commentDao.create(text, userId, tweetId);
+		Comment comment = commentDao.create(text, userName, tweetId);
 		commentIds.add(comment.getId());
 		tweet.setCommentIds(commentIds);
 		tweet.setTopComment(text);

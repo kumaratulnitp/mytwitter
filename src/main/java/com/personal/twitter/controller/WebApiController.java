@@ -1,10 +1,17 @@
 package com.personal.twitter.controller;
 
+import java.util.List;
+
+import javax.validation.constraints.NotNull;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.personal.twitter.exception.BusinessException;
@@ -41,15 +48,14 @@ public class WebApiController {
 	@PutMapping("/tweet")
 	public ResponseEntity<Tweet> tweet(String userName, String text) {
 		ResponseEntity<Tweet> response = null;
-		User user = null;
 		try {
-			user = userService.find(userName);
+			userService.find(userName);
 		} catch (BusinessException e) {
 			log.error("User not found");
 			response = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
 		}
 		if (response == null) {
-			Tweet tweet = tweetService.create(text, user.getId());
+			Tweet tweet = tweetService.create(text, userName);
 			response = new ResponseEntity<Tweet>(tweet, HttpStatus.ACCEPTED);
 		}
 		return response;
@@ -69,18 +75,36 @@ public class WebApiController {
 		return response;
 	}
 
-	@PutMapping("/follow")
-	public ResponseEntity<Boolean> follow(String userName, String userNameToFollow) {
-		return new ResponseEntity<Boolean>(Boolean.FALSE, HttpStatus.METHOD_NOT_ALLOWED);
+	@GetMapping("/followers")
+	public ResponseEntity<List<User>> follow(String userName) {
+		List<User> followers = null;
+		try {
+			followers = userService.findFollowers(userName);
+			return new ResponseEntity<List<User>>(followers, HttpStatus.ACCEPTED);
+		} catch (BusinessException e) {
+			log.error("exception {}", e.getMessage());
+			return new ResponseEntity<List<User>>(followers, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/follow")
+	public ResponseEntity<Boolean> follow(String userNameToFollow, String followerUserName) {
+		boolean result = false;
+		try {
+			result = userService.follow(userNameToFollow, followerUserName);
+			return new ResponseEntity<Boolean>(result, HttpStatus.ACCEPTED);
+		} catch (BusinessException e) {
+			log.error("Exception {}" , e);
+		}
+		return new ResponseEntity<Boolean>(result, HttpStatus.BAD_REQUEST);
 	}
 
 	@PutMapping("/like")
 	public ResponseEntity<String> like(String userName, int tweetId) {
 		ResponseEntity<String> response = null;
-		User user = null;
 		try {
-			user = userService.find(userName);
-			tweetService.like(tweetId, user.getId());
+			userService.find(userName);
+			tweetService.like(tweetId, userName);
 		} catch (BusinessException e) {
 			log.error("Not able to complete request {}", e.getMessage());
 			response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -94,10 +118,9 @@ public class WebApiController {
 	@PutMapping("/comment")
 	public ResponseEntity<String> comment(String userName, int tweetId, String text) {
 		ResponseEntity<String> response = null;
-		User user = null;
 		try {
-			user = userService.find(userName);
-			tweetService.comment(tweetId, user.getId(), text);
+			userService.find(userName);
+			tweetService.comment(tweetId, userName, text);
 		} catch (BusinessException e) {
 			log.error("Not able to complete request {}", e.getMessage());
 			response = new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -108,8 +131,23 @@ public class WebApiController {
 		return response;
 	}	
 
-	@GetMapping("/newFeed")
-	public void newsFeed(String userName) {
-
+	@GetMapping("/newsFeed")
+	public ResponseEntity<List<Tweet>> newsFeed(String userName) {
+		//TODO:validate username here
+		List<Tweet> newsFeed = userService.getNewsFeed(userName);
+		return new ResponseEntity<List<Tweet>>(newsFeed, HttpStatus.OK);
 	}	
+	
+	@GetMapping(value = "/testValid", produces = { MediaType.APPLICATION_JSON_VALUE , MediaType.APPLICATION_XML_VALUE})
+	@ResponseBody
+	public User textValidInJson(@NotNull @RequestParam("name") String name) {
+		User user = User.builder()
+				.id(1)
+				.userName(name)
+				.name(name)
+				.email(name.concat("@gmail.com"))
+				.build();
+		return user;
+	}
+	
 }

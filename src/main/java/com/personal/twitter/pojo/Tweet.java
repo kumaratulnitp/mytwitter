@@ -12,8 +12,8 @@ public class Tweet {
 	private int id;
 	private String text;
 	private Date createdOn;
-	private int userId;
-	private List<Integer> likedBy;
+	private String userName;
+	private List<String> likedBy;
 	private List<Integer> commentIds;
 	private String topComment;
 }

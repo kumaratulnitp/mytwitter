@@ -1,8 +1,11 @@
 package com.personal.twitter.dao;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -46,5 +49,40 @@ public class UserDaoInMemory implements UserDao{
 	private User save(User user) {
 		users.put(user.getUserName(), user);
 		return user;
+	}
+
+	@Override
+	public boolean follow(String userNameToFollow, String followerUserName) throws BusinessException {
+		User userToFollow = users.get(userNameToFollow);
+		User followerUser = users.get(followerUserName);
+		if (userToFollow == null || followerUser == null) {
+			throw new BusinessException("UserName does not exists");
+		}
+		List<String> followerUserNames = userToFollow.getFollowers();
+		if (followerUserNames == null) {
+			followerUserNames = new ArrayList<>();
+		} 
+		if (followerUserNames.contains(followerUserName)) {
+			return false;
+		}
+		followerUserNames.add(followerUserName);
+		userToFollow.setFollowers(followerUserNames);
+		return true;
+	}
+
+	@Override
+	public List<User> getAllFollowers(String userName)  throws BusinessException{
+		User userToFollow = users.get(userName);
+		if (userToFollow == null) {
+			throw new BusinessException("UserName does not exists");
+		}
+		List<String> followersList = userToFollow.getFollowers();
+		List<User> usersList = new ArrayList<User>();
+		if (followersList != null) {
+			usersList = followersList.stream()
+				.map(followerUserName -> users.get(followerUserName))
+				.collect(Collectors.toList());
+		}
+		return usersList;
 	}
 }

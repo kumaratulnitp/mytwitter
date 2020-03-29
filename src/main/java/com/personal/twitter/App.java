@@ -3,6 +3,7 @@ package com.personal.twitter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Hello world!
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @SpringBootConfiguration
+@EnableScheduling
 public class App 
 {
     public static void main( String[] args )

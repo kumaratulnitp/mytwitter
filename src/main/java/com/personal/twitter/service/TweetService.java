@@ -13,16 +13,21 @@ public class TweetService {
 	@Autowired
 	private TweetDao tweetDao;
 	
-	public Tweet create(String text, int userId) {
-		return tweetDao.create(text, userId);
+	@Autowired
+	private QueueService qService;
+	
+	public Tweet create(String text, String userId) {
+		Tweet tweet = tweetDao.create(text, userId);
+		qService.enqueue(tweet);
+		return tweet;
 	}
 	
-	public boolean like(int tweetId, int userId) throws BusinessException {
-		return tweetDao.like(tweetId, userId);
+	public boolean like(int tweetId, String userName) throws BusinessException {
+		return tweetDao.like(tweetId, userName);
 	}
 	
-	public boolean comment(int tweetId, int userId, String text) throws BusinessException {
-		return tweetDao.comment(tweetId, userId, text);
+	public boolean comment(int tweetId, String userName, String text) throws BusinessException {
+		return tweetDao.comment(tweetId, userName, text);
 	}
 	
 	public Tweet find(int tweetId) throws BusinessException {

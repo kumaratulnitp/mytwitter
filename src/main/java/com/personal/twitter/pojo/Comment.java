@@ -10,7 +10,7 @@ import lombok.Data;
 public class Comment {
 	private int id;
 	private String text;
-	private int userId;
+	private String userName;
 	private Date createdOn;
 	private int tweetId;
 }
