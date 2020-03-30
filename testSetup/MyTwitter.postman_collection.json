@@ -1,0 +1,254 @@
+{
+	"info": {
+		"_postman_id": "50ed93cc-5aa1-4a58-b318-dc7d82485f0c",
+		"name": "MyTwitter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/user?userName=akshaya&name=deep shikha&email=ds@gmail.com",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"user"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "akshaya"
+						},
+						{
+							"key": "name",
+							"value": "deep shikha"
+						},
+						{
+							"key": "email",
+							"value": "ds@gmail.com"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tweet",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/tweet?text=This is my first tweet&userName=atul",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tweet"
+					],
+					"query": [
+						{
+							"key": "text",
+							"value": "This is my first tweet"
+						},
+						{
+							"key": "userName",
+							"value": "atul"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "comment",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/comment?userName=12&tweetId=0&text=bakwas",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"comment"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "12"
+						},
+						{
+							"key": "tweetId",
+							"value": "0"
+						},
+						{
+							"key": "text",
+							"value": "bakwas"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "like",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/like?tweetId=0&userName=deepu",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"like"
+					],
+					"query": [
+						{
+							"key": "tweetId",
+							"value": "0"
+						},
+						{
+							"key": "userName",
+							"value": "deepu"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tweetShortDetail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/tweet?tweetId=0",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tweet"
+					],
+					"query": [
+						{
+							"key": "tweetId",
+							"value": "0"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "tweetFullDetail",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/tweetDetail?tweetId=1",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"tweetDetail"
+					],
+					"query": [
+						{
+							"key": "tweetId",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "follow",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/follow?userNameToFollow=ka1&followerUserName=ak1",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"follow"
+					],
+					"query": [
+						{
+							"key": "userNameToFollow",
+							"value": "ka1"
+						},
+						{
+							"key": "followerUserName",
+							"value": "ak1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "followers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/followers?userName=ka1",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"followers"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "ka1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "generate newsfeed",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{hostname}}:{{port}}/newsFeed?userName=akshaya",
+					"host": [
+						"{{hostname}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"newsFeed"
+					],
+					"query": [
+						{
+							"key": "userName",
+							"value": "akshaya"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
