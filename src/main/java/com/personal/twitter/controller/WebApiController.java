@@ -19,6 +19,7 @@ import com.personal.twitter.pojo.Tweet;
 import com.personal.twitter.pojo.User;
 import com.personal.twitter.service.TweetService;
 import com.personal.twitter.service.UserService;
+import com.personal.twitter.webvo.TweetVO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,6 +69,20 @@ public class WebApiController {
 		try {
 			tweet = tweetService.find(tweetId);
 			response = new ResponseEntity<Tweet>(tweet, HttpStatus.ACCEPTED);
+		} catch (BusinessException e) {
+			log.error("Tweet not found {}", e.getMessage());
+			response = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+		}
+		return response;
+	}
+	
+	@GetMapping("/tweetDetail")
+	public ResponseEntity<TweetVO> detailTweet(int tweetId) {
+		ResponseEntity<TweetVO> response = null;
+		TweetVO tweet = null;
+		try {
+			tweet = tweetService.findComplete(tweetId);
+			response = new ResponseEntity<>(tweet, HttpStatus.ACCEPTED);
 		} catch (BusinessException e) {
 			log.error("Tweet not found {}", e.getMessage());
 			response = new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
@@ -133,8 +148,14 @@ public class WebApiController {
 
 	@GetMapping("/newsFeed")
 	public ResponseEntity<List<Tweet>> newsFeed(String userName) {
-		//TODO:validate username here
-		List<Tweet> newsFeed = userService.getNewsFeed(userName);
+		List<Tweet> newsFeed = null;
+		try {
+			userService.find(userName);
+			newsFeed = userService.getNewsFeed(userName);
+		} catch (BusinessException e) {
+			log.error("Not able to complete request {}", e.getMessage());
+			return new ResponseEntity<List<Tweet>>(newsFeed, HttpStatus.BAD_REQUEST);
+		}
 		return new ResponseEntity<List<Tweet>>(newsFeed, HttpStatus.OK);
 	}	
 	

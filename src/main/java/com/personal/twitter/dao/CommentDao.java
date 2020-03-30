@@ -4,4 +4,5 @@ import com.personal.twitter.pojo.Comment;
 
 public interface CommentDao {
 	Comment create(String text, String userName, int tweetId);
+	Comment find(int commentId);
 }

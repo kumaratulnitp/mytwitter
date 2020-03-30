@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.personal.twitter.dao.NewsFeed;
+import com.personal.twitter.dao.NewsFeedDao;
 import com.personal.twitter.exception.BusinessException;
 import com.personal.twitter.pojo.Tweet;
 import com.personal.twitter.pojo.User;
@@ -24,7 +24,7 @@ public class ConsumerService {
 	private UserService userService;
 	
 	@Autowired
-	private NewsFeed newsFeed;
+	private NewsFeedDao newsFeed;
 	
 	@Scheduled(initialDelay = 3000, fixedDelay = 3000)
 	public void updateFeeds() {

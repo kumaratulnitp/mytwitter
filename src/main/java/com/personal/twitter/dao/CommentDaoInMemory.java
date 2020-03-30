@@ -30,4 +30,9 @@ public class CommentDaoInMemory implements CommentDao {
 		return comment;
 	}
 
+	@Override
+	public Comment find(int commentId) {
+		return comments.get(commentId);
+	}
+
 }

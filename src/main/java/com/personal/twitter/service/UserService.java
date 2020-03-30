@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.personal.twitter.dao.NewsFeed;
+import com.personal.twitter.dao.NewsFeedDao;
 import com.personal.twitter.dao.UserDao;
 import com.personal.twitter.exception.BusinessException;
 import com.personal.twitter.pojo.Tweet;
@@ -18,7 +18,7 @@ public class UserService {
 	private UserDao userDao;
 	
 	@Autowired
-	private NewsFeed newsFeed;
+	private NewsFeedDao newsFeed;
 	
 	public User find(String userName) throws BusinessException {
 		return userDao.find(userName);
