@@ -7,6 +7,9 @@ Requirement
 4. User can like a tweet - like(username, tweetId)
 5. User can comment on a tweet - comment(username, tweetId, commentBodyText)
 6. User should be able to see his tweet feed (which contains tweets from people he follows) - newsfeed(username)
+7. User can see a detail tweet
+8. User can see a short version of tweet
+9. User can see his followers
 
 What kind of system are we trying to build 
 1. It should be available
@@ -19,12 +22,13 @@ Basic objects we can see here which have their own life cycle and features
 1. User - id, name, email, 
 2. Tweet - id, text, userId, likes(of user ids), topLikes (userId and others), commentIds, topComment (userName, text)
 3. Comment - id, tweetId, userId
+4. Newsfeed - username, list of tweet ids
 
 What does a feed contain
 When user requests for a feed-
 List of people he follows is taken out
-	Tweets from these people are fetched (posts done in last 1-2 days are fetched)
-		Comments for these tweets are fetched (for obvious reasons, in a feed, we can have 1 comment shown)
+	-Tweets from these people are fetched (posts done in last 1-2 days are fetched)
+		-Comments for these tweets are fetched (for obvious reasons, in a feed, we can have 1 comment shown)
 
 
 If we try to build a user's feed on his request, it would be a reactive approach and would require a lot of computation and joins to prepare his feed.
